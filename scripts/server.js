@@ -23,7 +23,24 @@ var httpHandler = (request, response) => {
 
   //async time (readFile gives back a 'promise' that x will be ready at 'xtime' )
   //so get a promise that a file will be served after a certain amount of time 
-  fs.readFile('templates/indexx.html', (error, data) => {
+
+
+  if(request.url === '/') {
+
+    fs.readFile('templates/index.html', (error, data) => {
+      //this is an example of a CALLBACK function (if u call someone and get voice mail- hope they call u back)
+      //callback func means that ik it takes some time, i will giv u some time/instruction to call me back
+      //whenever ur done, do this...
+      if (error) {
+        console.log(error);
+        response.end('we brok');
+      }
+      response.end(data);
+    });
+  }
+  
+  if (request.url === '/contact') {
+  fs.readFile('templates/contact.html', (error, data) => {
     //this is an example of a CALLBACK function (if u call someone and get voice mail- hope they call u back)
     //callback func means that ik it takes some time, i will giv u some time/instruction to call me back
     //whenever ur done, do this...
@@ -33,6 +50,7 @@ var httpHandler = (request, response) => {
     }
     response.end(data);
   });
+  }
 }
 
 //now that we hav handler what do we need?? -- a listener
