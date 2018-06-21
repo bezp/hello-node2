@@ -4,13 +4,22 @@
 //
 
 var http = require('http');
+var fs = require('fs'); //fs = file system- a utility that lets server read stuff on our machine
+//now need to change http handler to service it...line 18+
 
 //our server needs to handle requests with a HANDLER
 
 var httpHandler = (request, response) => {
   //handler needs to do what... take request - do something - send response back
-  response.end('hello nooooooooooooooooooode');
-  //right now its saying no matter the req, this is the response
+  // response.end('hello nooooooooooooooooooode');
+  //right now its saying no matter the req, this is the response but we dont always want it to be hello noode...
+
+  //so now we want to server files
+  var fileSync = fs.readFileSync('templates/index.html');  //called the sync version
+  response.end(fileSync); //its as if we went into index.html and copy/pasted the code and passed it into response.end()
+
+
+
 }
 
 //now that we hav handler what do we need?? -- a listener
