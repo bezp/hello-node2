@@ -6,7 +6,7 @@
 
 
 
-require('./scripts/server');
+// require('./scripts/server');
 
 
 //we are telling index js, when run to get the other files
