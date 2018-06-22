@@ -8,6 +8,13 @@ var express = require('express');
 //abstract how diff platforms find the path...are u on windows or mac? etc
 var path = require('path');
 
+
+var nunjucks = require('nunjucks');
+//tell u what folder u want it in -templates (ctrl + space - shows u what u can do with an object)
+nunjucks.configure('templates', {
+  autoescape: true, //dont need to add ending tags in html
+  express: app
+})
 //turn it on
 const app = express();
 
@@ -32,8 +39,6 @@ app.use(express.static('scripts'));
 
 
 
-// app.use(express.static('styles'));
-
 //route takes in the pattern = '/' then we chain it
 // app.route('/')
 //   .get((rq, rs) => {
@@ -46,8 +51,19 @@ app.use(express.static('scripts'));
 //   .delete();
 
 app.get(/[a-z]/, (req, res) => {
-  res.sendFile(path.join(__dirname, '../templates', req.url, '.html'));
+  console.log(req.url);
+  // res.sendFile(path.join(__dirname, '../templates', req.url, '.html'));
 });
+
+// app.get('/contact/:banana', (req, res) => {
+//   if (req.params && req.params.banana) {
+//     // path.join(__dirname, '../templates/contact.minion.html');
+//     console.log(req.params);
+//     res.end();
+//   } else {
+//     path.join(__dirname, '../templates/contact.html');
+//   }
+// })
 
 
 // app.get('/');
