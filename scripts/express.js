@@ -8,15 +8,23 @@ var express = require('express');
 //abstract how diff platforms find the path...are u on windows or mac? etc
 var path = require('path');
 
+var bodyParser = require('body-parser');
 
+const app = express();
 var nunjucks = require('nunjucks');
 //tell u what folder u want it in -templates (ctrl + space - shows u what u can do with an object)
 nunjucks.configure('templates', {
   autoescape: true, //dont need to add ending tags in html
-  express: app
+  express: app//tells nunjucks about express
 })
 //turn it on
-const app = express();
+
+//tell express about nunjucks
+app.set('view engine', 'nunjucks');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 //we want a server what do we need? protocol - express already knows
 //need a handler
@@ -50,10 +58,10 @@ app.use(express.static('scripts'));
 //   .put()
 //   .delete();
 
-app.get(/[a-z]/, (req, res) => {
-  console.log(req.url);
-  // res.sendFile(path.join(__dirname, '../templates', req.url, '.html'));
-});
+// app.get(/[a-z]/, (req, res) => {
+//   console.log(req.url);
+//   // res.sendFile(path.join(__dirname, '../templates', req.url, '.html'));
+// });
 
 // app.get('/contact/:banana', (req, res) => {
 //   if (req.params && req.params.banana) {
@@ -70,6 +78,27 @@ app.get(/[a-z]/, (req, res) => {
 // app.post('/');
 // app.put('/');
 // app.delete('/');
+
+
+
+
+
+// app.get('/:banana/:potato/:onion', (req, res) => {
+//   res.render('indexnew', {minion: req.params.banana});
+// });
+
+app.route('/contact')
+  .get((req, res) => {
+    res.render('contact');
+  })
+  .post((req, res) => {
+    console.log(req.body);
+    res.render('indexnew', {
+      minion: req.body.pname, 
+      min2: req.body.sname
+    });
+    // res.end();
+  });
 
 //need listener
 app.listen(5050);
